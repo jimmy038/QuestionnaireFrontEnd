@@ -56,7 +56,7 @@ export default {
   } catch (error) {
     console.error("Error creating quiz:", error);
   }
-},
+  },
     },
     components: {
       RouterLink,

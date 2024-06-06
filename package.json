@@ -12,7 +12,7 @@
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
     "bootstrap-vue": "^2.23.1",
-    "chart.js": "^4.4.1",
+    "chart.js": "^3.0.0",
     "echarts": "^5.4.3",
     "pinia": "^2.1.7",
     "sass": "^1.69.3",

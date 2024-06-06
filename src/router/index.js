@@ -17,16 +17,16 @@ const router = createRouter({
     //   // which is lazy-loaded when the route is visited.
     //   component: () => import("../views/VtextAndVmodel.vue"), //←第二種匯入方式,有兩種匯入方式,匯入VtextAndVmodel
     // },
-    {
-      path: "/Vfor",
-      name: "Vfor",
-      component: () => import("../views/Vfor.vue"), //←第二種匯入方式,有兩種匯入方式,匯入Vfor
-    },
-    {
-      path: "/Von",
-      name: "Von",
-      component: () => import("../views/Von.vue"), //匯入Von
-    },
+    // {
+    //   path: "/Vfor",
+    //   name: "Vfor",
+    //   component: () => import("../views/Vfor.vue"), //←第二種匯入方式,有兩種匯入方式,匯入Vfor
+    // },
+    // {
+    //   path: "/Von",
+    //   name: "Von",
+    //   component: () => import("../views/Von.vue"), //匯入Von
+    // },
     {
       path: "/Questionnaire", //問卷首頁
       name: "Questionnaire",
@@ -38,13 +38,13 @@ const router = createRouter({
       component: () => import("../views/Answer.vue"),
     },
     {
-      path: "/confirm", //前台確認
-      name: "confirm",
+      path: "/Confirm", //前台確認頁
+      name: "Confirm",
       component: () => import("../views/Confirm.vue"),
     },
     {
       path: "/Statistics", //問卷統計
-      name: "statistics",
+      name: "Statistics",
       component: () => import("../views/Statistics.vue"),
     },
     {

@@ -27,7 +27,7 @@ export default {
     alert('請填寫所有問卷必填資料!');
     return;
   }
-   // 檢查每個問題必填資料
+    // 檢查每個問題必填資料
     for (let question of this.questions) {
         if (
           question.text.trim() === '' ||
@@ -67,14 +67,6 @@ export default {
       alert("新增問卷失敗");
     });
     },
-    // 取消操作，清空表單資料
-    cancel() {
-      this.questionnaireTitle = '';
-      this.surveyDescription = '';
-      this.startDate = '';
-      this.endDate = '';
-      this.questions = [];
-      }
     }
   };
 </script>
