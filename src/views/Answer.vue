@@ -152,7 +152,7 @@ export default {
       <div class="form">
         <!-- 將問題動態顯示 -->
         <div class="radio1" v-for="(question, index) in quizData.q_option" :key="index">
-          <h4>問題 : {{ question.label }}</h4>
+            <h4>問題 : {{ question.label }}</h4>
           <div class="options">
               <div class="option" v-for="(option, optIndex) in question.value" :key="optIndex">
                 <label :for="`${index}_${optIndex}`">
@@ -168,7 +168,6 @@ export default {
     <div class="bottom2" style="height: 15vh; width: 50vw">
       <RouterLink class="btn3" to="/Questionnaire" style="border: 2px solid black; 
       text-align: center; color: black; text-decoration: none;">取消</RouterLink>
-      
       <button type="button" class="btn3" @click="submitForm">送出</button>
     </div>
   </div>
@@ -236,7 +235,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    // flex-direction: column;
+    .form{
+
+    }
     .radio1 {
       display: flex;
     }
@@ -252,18 +253,13 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     margin-left: 50%;
-
-    .btn2 {
-      width: 65px;
-      height: 30px;
-      margin-left: 10%;
-      background-color: rgb(193, 34, 71);
-    }
     .btn3 {
-      width: 65px;
-      height: 30px;
+      width: 6vw;
+      height: 4vh;
       margin-left: 10%;
-      background-color: rgb(121, 134, 2);
+      background-color: rgb(144, 150, 236);
+      border: 2px solid black;
+      text-align: center;
     }
   }
 }

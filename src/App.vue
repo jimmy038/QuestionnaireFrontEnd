@@ -21,8 +21,8 @@ import axios from 'axios';
   }
 
   .contentShow{
-    width: 100vw;
-    height: 115vh;
+    // width: 100vw;
+    // height: 115vh;
     // display: flex;
     // align-items: center;
     // justify-content: center;
