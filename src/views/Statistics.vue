@@ -23,7 +23,7 @@ export default {
   methods: {
     async fetchQuizInfo(quizId) {
       try {
-        const response = await axios.get('http://localhost:8080/api/quiz/getQuizInfo', {
+        const response = await axios.get('http://localhost:8080/api/quiz/getQuizInfo?', {
           params: { id: quizId }
         });
         const data = response.data;
@@ -33,28 +33,28 @@ export default {
           const options = question.q_option.split(',');
           this.qnId = data.quizVoList[0].questionnaire.id; // 保存問卷的 qnId
           // 在获取到问卷信息后调用 initChart 方法
-          this.initChart(options, quizId);
+          this.initChart(options, this.qnId);
         } else {
           console.error('無效的數據格式或沒有可用的數據。');
+          this.handleError("此問卷尚未被填寫，沒有統計的資料。");
         }
       } catch (error) {
         console.error('獲取測驗信息時出錯：', error);
       }
     },
-
-    async fetchAnswerData(quizId) {
+    async fetchAnswerData(qnId) {
       try {
-        const response = await axios.get('http://localhost:8080/api/quiz/getAnsId', {
-          params: { id: quizId }
+        //取得所有對應問卷id user表內的 qnid
+        const response = await axios.get('http://localhost:8080/api/quiz/getAllQnid?', { 
+          params: { qnId }
         });
         const data = response.data;
         console.log('答案數據：', data); // 印出使用者資料
-
-        if (data.rtncode === "SUCCESSFUL" && data.user && data.user.ans && data.user.qnId === this.qnId) {
-          const userAnswer = data.user.ans;
-          return userAnswer ? userAnswer.split(',') : [];
+        if (data.rtncode === "SUCCESSFUL" && data.userList && data.userList.length > 0) {
+          return data.userList.map(user => user.ans);
         } else {
-          console.error('無效的數據格式或沒有可用的數據，或者 qnId 不匹配。');
+          console.error('無效的數據格式或沒有可用的數據。');
+          this.handleError("此問卷尚未被填寫，沒有統計的資料。");
           return [];
         }
       } catch (error) {
@@ -63,34 +63,38 @@ export default {
         return [];
       }
     },
-
+    //點擊後帶回問卷頁面
+    handleError(message) {
+      alert(message);
+      this.$router.push('/questionnaire'); // 帶回問卷頁面
+    },
     calculateVotes(options, userAnswers) {
       const optionsVotes = options.reduce((acc, option) => {
         acc[option] = 0; // 初始化每個選項的投票數
         return acc;
       }, {});
-
       userAnswers.forEach(answer => {
         if (optionsVotes.hasOwnProperty(answer)) {
           optionsVotes[answer] += 1; // 增加該答案的投票數
         }
       });
-
       const chartData = options.map(option => ({
         value: optionsVotes[option],
         name: option
       }));
-
       return chartData;
     },
 
-    async initChart(options, quizId) {
+    async initChart(options, qnId) {
       try {
-        const userAnswers = await this.fetchAnswerData(quizId);
+        const userAnswers = await this.fetchAnswerData(qnId);
         console.log('用戶答案：', userAnswers); // 調試日誌
+        if (userAnswers.length === 0) {
+          this.handleError("此問卷並未被填寫，沒有統計的資料。");
+          return;
+        }
         const data = this.calculateVotes(options, userAnswers);
         console.log('圖表數據：', data); // 調試日誌
-
         const chartInstance = echarts.init(this.$refs.pieChart);
         const option = {
           tooltip: { trigger: 'item' },
@@ -126,11 +130,8 @@ export default {
     }
   }
 };
+
 </script>
-
-
-
-
 
 
 
@@ -139,6 +140,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(243, 230, 199);
+  background-color: white;
   }
 </style>

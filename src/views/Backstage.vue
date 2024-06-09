@@ -57,11 +57,11 @@ export default {
             let endDate = new Date(quiz.endDate).getTime();
             //判斷問卷開始日期及結束日期
             if (now < startDate) {
-              quiz.status = "未發布";
+              quiz.status = "尚未開始";
             } else if (now > endDate) {
               quiz.status = "已結束";
             } else {
-              quiz.status = "已發布";
+              quiz.status = "進行中";
             }
             this.quizData.push(quiz);
           });
@@ -88,7 +88,7 @@ export default {
           let startDate = new Date(questionnaire.startDate).getTime();
           let endDate = new Date(questionnaire.endDate).getTime();
           if (now < startDate) {
-            questionnaire.status = "未發布";
+            questionnaire.status = "尚未開始";
           } else if (now > endDate) {
             questionnaire.status = "已結束";
           } else {
@@ -274,7 +274,7 @@ export default {
       <tr>
         <th scope="col">#</th>
         <th scope="col">編號</th>
-        <th scope="col">問卷名稱</th>
+        <th scope="col">問卷名稱 </th>
         <th scope="col">狀態</th>
         <th scope="col">開始時間</th>
         <th scope="col">結束時間</th>
@@ -294,7 +294,7 @@ export default {
         </th>
         <td>#{{ quiz.id }}</td>
         <td>{{ quiz.title }}</td>
-        <td :style="{color: quiz.status === '已發布' ? 'blue' : quiz.status === '已結束' ? 'red': 'green',}">
+        <td :style="{color: quiz.status === '進行中' ? 'green' : quiz.status === '已結束' ? 'red': 'blue',}">
           {{ quiz.status }}
         </td>
         <td>{{ quiz.startDate }}</td>
@@ -407,140 +407,211 @@ export default {
 <style lang="scss" scoped>
 .allArea {
   width: 100vw;
-  min-height: 115vh; /* 修改為最小高度以確保內容不會被切斷 */
+  min-height: 100vh;
   display: flex;
-  align-items: center;
-  // justify-content: center;
   flex-direction: column;
-  background-color: #eaeff1;
-  position: relative;
-  overflow: hidden;
+  align-items: center;
+  background-color: #f4f7f6;
+  padding: 20px;
 
   .formTitle {
-  width: 90vw;
-  min-height: 20vh; /* 修改為最小高度以確保內容不會被切斷 */
-  border: 3px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 5vh;
-  margin-top: 5vh;
-
-  .formTitleArea {
-    width: 90%; /* 修改為相對寬度以適應不同尺寸螢幕 */
+    width: 90vw;
+    border: 3px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1vh; /* 添加底部間距 */
-    margin-top: 1vh; /* 添加頂部間距 */
+    flex-direction: column;
+    margin-bottom: 5vh;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 
-    .TitleBtn {
-      width: 70%; /* 修改為相對寬度以適應不同尺寸螢幕 */
-      height: 50px;
+    .formTitleArea,
+    .starTitle {
+      width: 100%;
       display: flex;
       align-items: center;
-      margin-left: 2%; /* 調整左邊間距 */
+      justify-content: space-between;
+      margin-bottom: 1vh;
+      
+      .label {
+        white-space: nowrap;
+        padding-right: 10px;
+      }
+
+      .TitleBtn,
+      .TitleBtn1,
+      .TitleBtn2 {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      
+      .TitleBtn1,
+      .TitleBtn2 {
+        max-width: calc(50% - 40px);
+      }
+      
+      .search {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #4121b6;
+        }
+      }
     }
   }
-
-  .starTitle {
-    width: 90%; /* 修改為相對寬度以適應不同尺寸螢幕 */
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 1vh; /* 添加底部間距 */
-    margin-top: 1vh; /* 添加頂部間距 */
-
-    .search {
-      width: 50px;
-      height: 40px;
-    }
-    .TitleBtn1,
-    .TitleBtn2 {
-      width: 45%; /* 修改為相對寬度以適應不同尺寸螢幕 */
-      height: 50px;
-    }
-  }
-}
-
 
   .iconBig {
     width: 140px;
     display: flex;
     justify-content: space-between;
-    margin-right: 80%;
+    margin-bottom: 20px;
 
     .icon {
-    width: 30px;
-    margin-right: 2%; /* 修改為相對寬度以適應不同尺寸螢幕 */
+      width: 30px;
 
-  .btnn {
-    border: none;
+      .btnn {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #333;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #4CAF50;
+        }
+      }
     }
   }
-  }
+
   .formArea {
     width: 90vw;
-    min-height: 40vh; /* 修改為最小高度以確保內容不會被切斷 */
-    max-height: 65vh; /* 添加最大高度以避免內容過多時超出螢幕範圍 */
-    border: 3px solid black;
-    background-color: white;
-    // overflow: auto; /* 添加溢出滾動以適應內容過多的情況 */
+    max-height: 60vh;
+    border: 3px solid #333;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background-color: #f9f9f9;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f7f6;
+      }
+
+      tbody tr:hover {
+        background-color: #f1f1f1;
+      }
+    }
   }
 
   .bottom {
-    width: 100vw;
+    width: 100%;
     display: flex;
-    align-items: center;
-    margin-left: 10%;
-    margin-top: 2%;
-  }
+    justify-content: center;
+    margin-top: 20px;
 
-  .not-clickable-link {
-    color: #000;
-    text-decoration: none;
-    cursor: not-allowed;
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+
+      .page-item {
+        margin: 0 5px;
+
+        &.disabled .page-link {
+          cursor: not-allowed;
+        }
+
+        &.active .page-link {
+          background-color: #4CAF50;
+          color: white;
+        }
+
+        .page-link {
+          display: block;
+          padding: 10px 15px;
+          color: #333;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          text-decoration: none;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #f1f1f1;
+          }
+        }
+      }
+    }
   }
 }
 
 .showbox {
   width: 80%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: rgb(188, 185, 168);
+  padding: 20px;
+  background-color: #bcb9a8;
   border-radius: 8px;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); //將一個元素水平和垂直置中
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  .closeButton {
-    background-color: rgb(188, 185, 168);
-    border: none;
-    font-size: 30px;
-  }
-
-  p {
-    margin-right: 230px;
+  label {
     margin-top: 10px;
+    margin-bottom: 5px;
   }
 
   .btn1 {
-    width: 280px;
+    width: 100%;
     height: 40px;
-    border-radius: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
   }
 
   .btn2 {
-    width: 215px;
-    height: 35px;
-    margin-top: 30px;
-    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+    border-radius: 4px;
     background-color: #6e7be0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #5a6bdc;
+    }
   }
 }
 </style>
+

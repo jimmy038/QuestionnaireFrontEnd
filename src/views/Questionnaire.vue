@@ -150,12 +150,11 @@ export default {
     <!-- 搜尋條件區域 -->
     <div class="formTitle">
       <div class="formTitleArea">
-        <span style="padding-left: 20px">　問卷名稱 : </span>
+        <span class="label">問卷名稱:</span>
         <input type="text" class="TitleBtn" v-model="title1" />
       </div>
-      <br />
       <div class="starTitle">
-        <span>　開始/結束:　</span>
+        <span class="label">開始/結束:</span>
         <input type="date" class="TitleBtn1" v-model="startDate" />
         <input type="date" class="TitleBtn2" v-model="endDate" />
         <button type="button" class="search" @click="searchQuestionnaire">搜尋</button>
@@ -179,27 +178,26 @@ export default {
           <tr v-for="(quiz, index) in paginatedData" :key="index">
             <th scope="row">#{{ quiz.id }}</th>
             <td @click="onClickQuiz(quiz.id)">
-      <RouterLink v-if="quiz.status === '進行中'" :to="{
-        path: '/Answer',
-        query: {
-          quizId: quiz.id,
-          title: quiz.title,
-          description: quiz.description,
-          q_option: quiz.q_option,
-          },
-      }">{{ quiz.title }}
-    </RouterLink>
-        <span v-else>{{ quiz.title }}</span>
-        </td>
-            <td :style="{color:quiz.status === '進行中' ? 'blue': quiz.status === '已結束' ? 'red': 'green',}">
+              <RouterLink v-if="quiz.status === '進行中'" :to="{
+                path: '/Answer',
+                query: {
+                  quizId: quiz.id,
+                  title: quiz.title,
+                  description: quiz.description,
+                  q_option: quiz.q_option,
+                },
+              }">{{ quiz.title }}</RouterLink>
+              <span v-else>{{ quiz.title }}</span>
+            </td>
+            <td :style="{ color: quiz.status === '進行中' ? 'green' : quiz.status === '已結束' ? 'red' : 'blue' }">
               {{ quiz.status }}
             </td>
             <td>{{ quiz.startDate }}</td>
             <td>{{ quiz.endDate }}</td>
             <td>
-              <template v-if="quiz.status === '未發布'">觀看結果</template>
-              <RouterLink v-else :to="{path: '/Statistics', query: {quizId: quiz.id,} ,}" >觀看結果</RouterLink>
-            </td>          
+              <template v-if="quiz.status === '尚未開始'">觀看結果</template>
+              <RouterLink v-else :to="{ path: '/Statistics', query: { quizId: quiz.id } }">觀看結果</RouterLink>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -227,111 +225,134 @@ export default {
           </li>
         </ul>
       </nav>
-      <RouterLink class="routerItem" to="/Backstage" style="margin-left: 80%"
-        ><i class="fa-solid fa-house-lock"></i>
+      <RouterLink class="routerItem" to="/Backstage" style="margin-left: 80%">
+        <i class="fa-solid fa-house-lock"></i>
       </RouterLink>
     </div>
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 .allArea {
   width: 100vw;
-  min-height: 115vh; /* 修改為最小高度以確保內容不會被切斷 */
+  min-height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
   background-color: #eaeff1;
   position: relative;
   overflow: hidden;
+  padding: 20px;
 
   .formTitle {
-  width: 90vw;
-  min-height: 20vh; /* 修改為最小高度以確保內容不會被切斷 */
-  border: 3px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 5vh;
-  margin-top: 5vh;
-
-  .formTitleArea {
-    width: 90%; /* 修改為相對寬度以適應不同尺寸螢幕 */
+    width: 90vw;
+    border: 3px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1vh; /* 添加底部間距 */
-    margin-top: 1vh; /* 添加頂部間距 */
+    flex-direction: column;
+    margin-bottom: 5vh;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 
-    .TitleBtn {
-      width: 70%; /* 修改為相對寬度以適應不同尺寸螢幕 */
-      height: 50px;
+    .formTitleArea,
+    .starTitle {
+      width: 100%;
       display: flex;
       align-items: center;
-      margin-left: 2%; /* 調整左邊間距 */
-    }
-  }
+      justify-content: space-between;
+      margin-bottom: 1vh;
+      
+      .label {
+        white-space: nowrap;
+        padding-right: 10px;
+      }
 
-  .starTitle {
-    width: 90%; /* 修改為相對寬度以適應不同尺寸螢幕 */
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 1vh; /* 添加底部間距 */
-    margin-top: 1vh; /* 添加頂部間距 */
-
-    .search {
-      width: 50px;
-      height: 40px;
-    }
-    .TitleBtn1,
-    .TitleBtn2 {
-      width: 45%; /* 修改為相對寬度以適應不同尺寸螢幕 */
-      height: 50px;
-    }
-  }
-}
-
-
-  .iconBig {
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    margin-right: 77%;
-
-    .icon {
-      width: 30px;
-      margin-right: 82%;
-
-      .btnn {
+      .TitleBtn,
+      .TitleBtn1,
+      .TitleBtn2 {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      
+      .TitleBtn1,
+      .TitleBtn2 {
+        max-width: calc(50% - 40px);
+      }
+      
+      .search {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
         border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #4121b6;
+        }
       }
     }
   }
+
   .formArea {
     width: 90vw;
-    min-height: 40vh; /* 修改為最小高度以確保內容不會被切斷 */
-    max-height: 65vh; /* 添加最大高度以避免內容過多時超出螢幕範圍 */
     border: 3px solid black;
     background-color: white;
+    overflow-y: auto;
+    margin-bottom: 20px;
   }
 
   .bottom {
-    width: 100vw;
+    width: 100%;
     display: flex;
     align-items: center;
-    margin-left: 10%;
-    margin-top: 2%;
-  }
+    justify-content: center;
 
-  .not-clickable-link {
-    color: #000;
-    text-decoration: none;
-    cursor: not-allowed;
+    .pagination {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+
+      .page-item {
+        margin: 0 5px;
+
+        &.disabled .page-link {
+          color: #ccc;
+          pointer-events: none;
+        }
+
+        &.active .page-link {
+          background-color: #4CAF50;
+          border-color: #4CAF50;
+          color: white;
+        }
+
+        .page-link {
+          display: block;
+          padding: 8px 12px;
+          background-color: white;
+          border: 1px solid #dee2e6;
+          color: #007bff;
+          text-decoration: none;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #e9ecef;
+          }
+        }
+      }
+    }
   }
 }
-
 </style>
 
