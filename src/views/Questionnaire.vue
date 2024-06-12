@@ -52,7 +52,7 @@ export default {
             let endDate = new Date(quiz.endDate).getTime();
             //判斷已發布未發布或是已結束
             if (now < startDate) {
-              quiz.status = "未發布";
+              quiz.status = "尚未開始";
             } else if (now > endDate) {
               quiz.status = "已結束";
             } else {
@@ -304,10 +304,35 @@ export default {
 
   .formArea {
     width: 90vw;
+    height: 460px; /* Fixed height for 10 rows */
     border: 3px solid black;
     background-color: white;
-    overflow-y: auto;
+    overflow: hidden; /* Hide overflow to avoid scrollbars */
     margin-bottom: 20px;
+
+    .table {
+      width: 100%;
+      height: 100%;
+      table-layout: fixed; /* Fixed table layout */
+      
+      thead, tbody {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* Ensure fixed layout for both head and body */
+      }
+
+      tbody {
+        height: calc(100% - 50px); /* Adjust to fill the remaining height */
+        display: block;
+        overflow: hidden; /* Ensure no scrollbar in the body */
+      }
+
+      tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* Ensure fixed layout for rows */
+      }
+    }
   }
 
   .bottom {

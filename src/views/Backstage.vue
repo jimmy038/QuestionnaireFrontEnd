@@ -5,19 +5,19 @@ import axios from "axios";
 export default {
   data() {
     return {
-      title1: "", // 用於綁定標題的變數
+      title1: "",   // 用於綁定標題的變數
       is_published: true, 
       startDate: "", 
       endDate: "", 
       quizData: [], // 用於存儲從後端 API 收到的問卷資料
-      intList: [], //用於儲存被選中的問卷 ID。在 handleCheckboxChange 方法中，被選中的問卷 ID 會被加入這個陣列。
-      quizIds: [], //儲存選中問卷 ID。在 handleCheckboxChange 方法中，用於檢查已經選中的問卷 ID 是否已存在於此陣列中，並作出對應的操作。
+      intList: [],  //用於儲存被選中的問卷 ID。在 handleCheckboxChange 方法中，被選中的問卷 ID 會被加入這個陣列。
+      quizIds: [],  //儲存選中問卷 ID。在 handleCheckboxChange 方法中，用於檢查已經選中的問卷 ID 是否已存在於此陣列中，並作出對應的操作。
       selectedQuiz: [],
       selectedQuizId: "", //綁定回傳給DB的問卷ID
       //↓修改彈跳視窗
       showDialog: false, //建立彈跳視窗變數showDialog預設布林值為false
-      currentPage: 1, // 目前頁碼
-      perPage: 10, // 每頁顯示的項目數量
+      currentPage: 1,    // 目前頁碼
+      perPage: 10,       // 每頁顯示的項目數量
     };
   },
   //mounted掛載，Vue 的生命週期方法 mounted。當這個組件被加載到 DOM 中時，mounted 方法會被調用。在這裡，我們使用 async/await 的方式呼叫了 searchAll 方法。await 關鍵字用於等待 searchAll 方法完成執行。
@@ -244,12 +244,12 @@ export default {
   <div class="allArea">
     <div class="formTitle">
       <div class="formTitleArea">
-        <span style="padding-left: 20px">　問卷名稱:</span>
+        <span style="padding-left: 20px">問卷名稱:</span>
         <input type="text" class="TitleBtn" v-model="title1" />
       </div>
       <br />
       <div class="starTitle">
-        <span>　開始/結束:　</span>
+        <span>開始/結束:</span>
         <input type="date" class="TitleBtn1" v-model="startDate" />
         <input type="date" class="TitleBtn2" v-model="endDate" />
         <button type="button" class="search" @click="searchQuestionnaire">搜尋</button>
@@ -258,8 +258,7 @@ export default {
     <div class="iconBig">
       <div class="icon">
         <button type="button" class="btnn">
-          <i class="fa-solid fa-trash-can" @click="deleteQuestionnaire"
-            style="margin-left: 10px"></i>
+          <i class="fa-solid fa-trash-can" @click="deleteQuestionnaire" style="margin-left: 10px"></i>
         </button>
       </div>
       <div class="icon">
@@ -269,130 +268,81 @@ export default {
       </div>
     </div>
     <div class="formArea">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">編號</th>
-        <th scope="col">問卷名稱 </th>
-        <th scope="col">狀態</th>
-        <th scope="col">開始時間</th>
-        <th scope="col">結束時間</th>
-        <th scope="col">統計結果</th>
-        <th scope="col">修改</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- 將 v-for 循環中的 quizData 替換為 paginatedData -->
-      <tr v-for="(quiz, index) in paginatedData" :key="index">
-        <!-- 將點擊 checkbox 和垃圾桶 icon 關聯 -->
-        <th scope="row">
-          <input
-            type="checkbox"
-            v-bind:value="quiz.id"
-            v-model="this.selectedQuiz"/>
-        </th>
-        <td>#{{ quiz.id }}</td>
-        <td>{{ quiz.title }}</td>
-        <td :style="{color: quiz.status === '進行中' ? 'green' : quiz.status === '已結束' ? 'red': 'blue',}">
-          {{ quiz.status }}
-        </td>
-        <td>{{ quiz.startDate }}</td>
-        <td>{{ quiz.endDate }}</td>
-        <td>
-          <template v-if="quiz.status === '未發布'">觀看結果</template>
-          <RouterLink v-else :to="{path: '/Statistics', query: {quizId: quiz.id,} ,}" >觀看結果</RouterLink>
-        </td>  
-        <button type="button" style="border: none" @click="Dialog(quiz.id)">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </button>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">編號</th>
+            <th scope="col">問卷名稱</th>
+            <th scope="col">狀態</th>
+            <th scope="col">開始時間</th>
+            <th scope="col">結束時間</th>
+            <th scope="col">統計結果</th>
+            <th scope="col">修改</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(quiz, index) in paginatedData" :key="index">
+            <th scope="row">
+              <input type="checkbox" v-bind:value="quiz.id" v-model="selectedQuiz" />
+            </th>
+            <td>#{{ quiz.id }}</td>
+            <td>{{ quiz.title }}</td>
+            <td :style="{color: quiz.status === '進行中' ? 'green' : quiz.status === '已結束' ? 'red' : 'blue'}">{{ quiz.status }}</td>
+            <td>{{ quiz.startDate }}</td>
+            <td>{{ quiz.endDate }}</td>
+            <td>
+              <template v-if="quiz.status === '未發布'">觀看結果</template>
+              <RouterLink v-else :to="{ path: '/Statistics', query: { quizId: quiz.id } }">觀看結果</RouterLink>
+            </td>
+            <td>
+              <button type="button" style="border: none" @click="Dialog(quiz.id)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <!-- 修改問卷資料彈跳視窗 -->
     <div class="showbox" v-if="showDialog">
-      <!-- <button class="closeButton" @click="closeDialog">X</button> -->
       <div>
-        <label for="title">問卷標題:</label><br>
-        <!-- 顯示所選問卷的標題 -->
-        <input
-          type="text"
-          id="title"
-          class="btn1"
-          placeholder="問卷標題"
-          v-model="selectedQuiz.title"/>
+        <label for="title">問卷標題:</label><br />
+        <input type="text" id="title" class="btn1" placeholder="問卷標題" v-model="selectedQuiz.title" />
       </div>
       <div>
-        <label for="description">問卷描述:</label><br>
-        <!-- 顯示所選問卷的描述 -->
-        <input
-          type="text"
-          id="description"
-          class="btn1"
-          placeholder="問卷描述"
-          v-model="selectedQuiz.description"/>
+        <label for="description">問卷描述:</label><br />
+        <input type="text" id="description" class="btn1" placeholder="問卷描述" v-model="selectedQuiz.description" />
       </div>
       <div>
-        <label for="startDate">開始日期:</label><br>
-        <!-- 顯示所選問卷的開始日期 -->
-        <input
-          type="date"
-          id="startDate"
-          class="btn1"
-          v-model="selectedQuiz.startDate"/>
+        <label for="startDate">開始日期:</label><br />
+        <input type="date" id="startDate" class="btn1" v-model="selectedQuiz.startDate" />
       </div>
       <div>
-        <label for="endDate">結束日期:</label><br>
-        <!-- 顯示所選問卷的結束日期 -->
-        <input
-          type="date"
-          id="endDate"
-          class="btn1"
-          v-model="selectedQuiz.endDate"/>
+        <label for="endDate">結束日期:</label><br />
+        <input type="date" id="endDate" class="btn1" v-model="selectedQuiz.endDate" />
       </div>
-
-      <!-- 顯示問題列表 -->
       <div v-for="(question, index) in selectedQuestions" :key="index">
-        <label :for="'questionTitle' + index">問題{{ index + 1 }}:</label><br>
-        <!-- 顯示問題的標題 -->
-        <input
-          type="text"
-          :id="'questionTitle' + index"
-          class="btn1"
-          v-model="question.q_title"
-          :placeholder="'問題' + (index + 1) + '標題'"/>
-          <br><label :for="'questionOption' + index">問題{{ index + 1 }}的選項:</label><br>
-        <!-- 顯示問題的選項 -->
-        <input
-          type="text"
-          :id="'questionOption' + index"
-          class="btn1"
-          v-model="question.q_option"
-          :placeholder="'問題' + (index + 1) + '選項'"/>
+        <label :for="'questionTitle' + index">問題{{ index + 1 }}:</label><br />
+        <input type="text" :id="'questionTitle' + index" class="btn1" v-model="question.q_title" :placeholder="'問題' + (index + 1) + '標題'" />
+        <br /><label :for="'questionOption' + index">問題{{ index + 1 }}的選項:</label><br />
+        <input type="text" :id="'questionOption' + index" class="btn1" v-model="question.q_option" :placeholder="'問題' + (index + 1) + '選項'" />
       </div>
-
-      <!-- 提交修改的按鈕 -->
       <button type="button" class="btn2" @click="sendQuizDataToServer()">修改</button>
-      <!-- 取消按鈕 -->
       <button type="button" class="btn2" @click="closeDialog()">取消</button>
     </div>
 
     <div class="bottom">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
-          <!-- 前往上一頁的按鈕 -->
           <li class="page-item" :class="{ disabled: currentPage === 1 }">
             <a class="page-link" href="#" aria-label="Previous" @click="prevPage">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          <!-- 顯示分頁按鈕 -->
           <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
             <a class="page-link" href="#" @click="gotoPage(page)">{{ page }}</a>
           </li>
-          <!-- 前往下一頁的按鈕 -->
           <li class="page-item" :class="{ disabled: currentPage === totalPages }">
             <a class="page-link" href="#" aria-label="Next" @click="nextPage">
               <span aria-hidden="true">&raquo;</span>
@@ -433,7 +383,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       margin-bottom: 1vh;
-      
+
       .label {
         white-space: nowrap;
         padding-right: 10px;
@@ -449,12 +399,12 @@ export default {
         border-radius: 4px;
         font-size: 16px;
       }
-      
+
       .TitleBtn1,
       .TitleBtn2 {
         max-width: calc(50% - 40px);
       }
-      
+
       .search {
         padding: 10px 20px;
         background-color: #4CAF50;
@@ -498,41 +448,83 @@ export default {
 
   .formArea {
     width: 90vw;
-    max-height: 60vh;
+    height: 500px; /* Fixed height for 10 rows */
     border: 3px solid #333;
     background-color: #fff;
     border-radius: 8px;
-    overflow: auto;
+    overflow: hidden; /* Hide overflow to avoid scrollbars */
 
     table {
       width: 100%;
-      border-collapse: collapse;
+      height: 100%;
+      table-layout: fixed;
 
       thead {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
         background-color: #f9f9f9;
       }
 
-      th, td {
-        text-align: left;
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-      }
+      tbody {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        overflow: hidden; /* Hide overflow to avoid scrollbars */
+        height: calc(100% - 40px); /* Adjust height to fill remaining space after header */
 
-      th {
-        background-color: #f4f7f6;
+        tr {
+          display: table;
+          width: 100%;
+          table-layout: fixed;
+        }
       }
+    }
+  }
 
-      tbody tr:hover {
-        background-color: #f1f1f1;
+  .showbox {
+    position: fixed;
+    width: 30vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 3px solid #333;
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+    .btn1 {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .btn2 {
+      padding: 10px 20px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #4121b6;
       }
     }
   }
 
   .bottom {
-    width: 100%;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 
     .pagination {
       display: flex;
@@ -544,72 +536,27 @@ export default {
 
         &.disabled .page-link {
           cursor: not-allowed;
+          opacity: 0.5;
         }
 
         &.active .page-link {
           background-color: #4CAF50;
+          border-color: #4CAF50;
           color: white;
         }
 
         .page-link {
-          display: block;
           padding: 10px 15px;
-          color: #333;
           border: 1px solid #ddd;
           border-radius: 4px;
+          color: #333;
           text-decoration: none;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
 
           &:hover {
-            background-color: #f1f1f1;
+            background-color: #f0f0f0;
           }
         }
       }
-    }
-  }
-}
-
-.showbox {
-  width: 80%;
-  padding: 20px;
-  background-color: #bcb9a8;
-  border-radius: 8px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  label {
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
-
-  .btn1 {
-    width: 100%;
-    height: 40px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    font-size: 16px;
-  }
-
-  .btn2 {
-    width: 100px;
-    height: 40px;
-    margin-top: 20px;
-    border-radius: 4px;
-    background-color: #6e7be0;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #5a6bdc;
     }
   }
 }

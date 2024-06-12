@@ -63,11 +63,12 @@ export default {
         return [];
       }
     },
-    //點擊後帶回問卷頁面
+    //點擊後顯示錯誤訊息帶回問卷頁面
     handleError(message) {
       alert(message);
       this.$router.push('/questionnaire'); // 帶回問卷頁面
     },
+    //計算每個選項的投票數，並生成適合餅圖使用的數據格
     calculateVotes(options, userAnswers) {
       const optionsVotes = options.reduce((acc, option) => {
         acc[option] = 0; // 初始化每個選項的投票數
@@ -84,7 +85,7 @@ export default {
       }));
       return chartData;
     },
-
+    //通過 fetchAnswerData 獲取用戶答案，然後通過 calculateVotes 計算圖表數據，最後使用 ECharts 初始化並設置餅圖的配置。
     async initChart(options, qnId) {
       try {
         const userAnswers = await this.fetchAnswerData(qnId);

@@ -25,7 +25,7 @@ export default {
   const routeParams = this.$route.query;
   this.quizId = routeParams.quizId;
   if (this.quizId) {
-    this.qnid = this.quizId; // 将问卷 ID 赋值给 qnid
+    this.qnid = this.quizId; // 把問卷 ID 賦予值給 qnid
     this.fetchQuizData(this.quizId);
     console.log("Quiz ID from route:", this.quizId);
   } else {
@@ -135,95 +135,84 @@ export default {
     <!-- ↓此行印出 問卷編號標題描述 -->
     <!-- <pre>{{ $route.query }}</pre> --> 
     <div class="content">
-      <div class="name">
-        <h2>姓名:</h2>
-        <h2>手機:</h2>
-        <h2>信箱:</h2>
-        <h2>年齡:</h2>
-      </div>
-      <div class="btn">
-        <input type="text" class="input1" v-model="binding" required placeholder="王小名" maxlength="20"/>
-        <input type="text" class="input1" v-model="binding1"  @input="validatePhoneNumber" required placeholder="0912345678" maxlength="10" />
-        <input type="email" class="input1" v-model="binding2" required placeholder="example123@gmail.com"/>
-        <input type="text" class="input1" v-model="binding3" required placeholder="Your-Age" maxlength="2"/>
+      <div class="form-group">
+        <div class="input-group">
+          <h2>姓名:</h2>
+          <input type="text" class="input1" v-model="binding" required placeholder="王小名" maxlength="20"/>
+        </div>
+        <div class="input-group">
+          <h2>手機:</h2>
+          <input type="text" class="input1" v-model="binding1" @input="validatePhoneNumber" required placeholder="0912345678" maxlength="10" />
+        </div>
+        <div class="input-group">
+          <h2>信箱:</h2>
+          <input type="email" class="input1" v-model="binding2" required placeholder="example123@gmail.com"/>
+        </div>
+        <div class="input-group">
+          <h2>年齡:</h2>
+          <input type="text" class="input1" v-model="binding3" required placeholder="Your-Age" maxlength="2"/>
+        </div>
       </div>
     </div>
     <div class="bottom">
+      <!-- 將問題動態顯示 -->
       <div class="form">
-        <!-- 將問題動態顯示 -->
-        <div class="radio1" v-for="(question, index) in quizData.q_option" :key="index">
-            <h4>問題 : {{ question.label }}</h4>
+        <div class="question" v-for="(question, index) in quizData.q_option" :key="index">
+          <h3>問題 : {{ question.label }}</h3>
           <div class="options">
-              <div class="option" v-for="(option, optIndex) in question.value" :key="optIndex">
-                <label :for="`${index}_${optIndex}`">
-                  <input type="radio" :id="`${index}_${optIndex}`" :name="'option_' + index"
-                  v-model="foodRadio" :value="option"/>
-                  <h5>選項{{ optIndex + 1 }}:{{ option }}</h5>
-                </label>
-              </div>
+            <div class="option" v-for="(option, optIndex) in question.value" :key="optIndex">
+              <label :for="`${index}_${optIndex}`" class="option-label">
+                <input type="radio" :id="`${index}_${optIndex}`" :name="'option_' + index" v-model="foodRadio" :value="option"/>
+                <h5 class="option-text">{{ option }}</h5>
+              </label>
             </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-    <div class="bottom2" style="height: 15vh; width: 50vw">
-      <RouterLink class="btn3" to="/Questionnaire" style="border: 2px solid black; 
-      text-align: center; color: black; text-decoration: none;">取消</RouterLink>
+    <div class="bottom2">
+      <router-link class="btn3" to="/Questionnaire">取消</router-link>
       <button type="button" class="btn3" @click="submitForm">送出</button>
     </div>
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 .all {
   width: 100vw;
-  height: 115vh;
+  min-height: 100vh; /* Changed to min-height for responsiveness */
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: rgb(235, 200, 166);
   flex-direction: column;
 
-  .topArea {
-    width: 100vw;
-    height: 30vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    .top {
-      margin-left: 75%;
-    }
-  }
-
   .content {
     width: 80vw;
-    height: 40vh;
+    margin-top: 20px; /* Added margin-top for spacing */
     display: flex;
     align-items: center;
     justify-content: center;
 
-    .name {
-      width: 20vw;
-      height: 40vh;
+    .form-group {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
       flex-direction: column;
-      margin-left: 25%;
+      align-items: center; /* Center the form group */
+      justify-content: center;
     }
 
-    .btn {
-      width: 80vw;
-      height: 40vh;
+    .input-group {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px; /* Added margin-bottom for spacing */
+      
+      h2 {
+        margin-right: 10px; /* Added margin-right for spacing between label and input field */
+      }
+
       .input1 {
-        width: 250px;
-        height: 50px;
+        width: 200px; /* Fixed width */
+        height: 40px; /* Fixed height */
         border-radius: 10px;
       }
     }
@@ -231,36 +220,55 @@ export default {
 
   .bottom {
     width: 100vw;
-    height: 30vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    .form{
+    margin-top: 20px; /* Added margin-top for spacing */
+  }
 
+  .form {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .question {
+      margin-bottom: 20px; /* Added margin-bottom for spacing between questions */
     }
-    .radio1 {
+
+    .options {
       display: flex;
+      flex-direction: column;
     }
-    .food1 {
-      padding-top: 1px;
+
+    .option-label {
       display: flex;
-      margin-left: 20%;
+      align-items: center;
+      margin-bottom: 10px; /* Added margin-bottom for spacing between options */
+    }
+
+    .option-text {
+      margin-left: 10px; /* Added margin-left for spacing between checkbox/radio and text */
     }
   }
 
   .bottom2 {
+    margin-top: 20px; /* Added margin-top for spacing */
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin-left: 50%;
-    .btn3 {
-      width: 6vw;
-      height: 4vh;
-      margin-left: 10%;
-      background-color: rgb(144, 150, 236);
-      border: 2px solid black;
-      text-align: center;
-    }
+    width: 80vw; /* Adjusted width for responsiveness */
+  }
+
+  .btn3 {
+    width: 100px;
+    height: 40px;
+    background-color: rgb(144, 150, 236);
+    border: 2px solid black;
+    text-align: center;
+    line-height: 40px; /* Centering text vertically */
+    text-decoration: none; /* Removed underlining for router-link */
+    color: black; /* Added color */
   }
 }
 </style>
