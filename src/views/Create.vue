@@ -9,6 +9,7 @@ export default {
       startDate: "",
       endDate: "",
       questions: [],
+      option_type: '' // 初始化选项类型
     };
   },
   methods: {
@@ -45,6 +46,7 @@ export default {
     },
     questionList: this.questions.map(question => ({
       q_title: question.text,
+      option_type: this.option_type,
       q_option: question.options,
       is_necessary: question.required
     }))
