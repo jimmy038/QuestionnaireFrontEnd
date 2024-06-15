@@ -51,7 +51,7 @@ export default {
       is_necessary: question.required
     }))
   };
-  //  POST 
+  //  POST 新增問卷
   axios.post("http://localhost:8080/api/quiz/create", requestData)
     .then(response => {
       console.log(response.data.rtncode);

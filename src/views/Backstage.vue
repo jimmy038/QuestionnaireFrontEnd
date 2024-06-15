@@ -181,7 +181,7 @@ export default {
           console.error("Error sending data:", error);
         });
       //點擊修改後同時關閉視窗
-      this.showDialog = false;
+      this.closeDialog();
     },
     //關閉彈出視窗當為false時關閉視窗
     closeDialog() {
@@ -192,9 +192,7 @@ export default {
       // 使用動態生成的 URL 發送請求以取得問卷資料
       const apiUrl = `http://localhost:8080/api/quiz/getQuizInfo?id=${quizId}`;
       // 發送請求獲取問卷及問題資料
-      axios
-        .get(apiUrl)
-        .then((response) => {
+      axios.get(apiUrl).then((response) => {
           // 將取得的資料賦值給 selectedQuizData
           const selectedQuizData = response.data.quizVoList[0];
           // 確保資料非空才繼續執行

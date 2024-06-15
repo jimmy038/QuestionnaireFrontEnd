@@ -129,9 +129,9 @@ export default {
 <template>
   <div class="all">
     <!-- 改為動態顯示問卷的標題 -->
-    <h3 style="color: blue;">問卷編號 : {{ quizId }}</h3><hr>
-    <h3 style="color: blue;">問卷標題 : {{ quizTitle }}</h3><hr>
-    <h4 style="color: blue;">問卷描述 : {{ quizData.description }}</h4>
+    <h3 style="color: blue;">問卷編號 : {{ quizId }}</h3><br>
+    <h3 style="color: blue;">問卷標題 : {{ quizTitle }}</h3><br>
+    <h4 style="color: blue;">問卷描述 : {{ quizData.description }}</h4><br>
     <!-- ↓此行印出 問卷編號標題描述 -->
     <!-- <pre>{{ $route.query }}</pre> --> 
     <div class="content">
@@ -171,7 +171,7 @@ export default {
       </div>
     </div>
     <div class="bottom2">
-      <router-link class="btn3" to="/Questionnaire">取消</router-link>
+      <RouterLink class="btn3" to="/Questionnaire">取消</RouterLink>
       <button type="button" class="btn3" @click="submitForm">送出</button>
     </div>
   </div>
@@ -211,8 +211,8 @@ export default {
       }
 
       .input1 {
-        width: 200px; /* Fixed width */
-        height: 40px; /* Fixed height */
+        width: 300px; /* Fixed width */
+        height: 50px; /* Fixed height */
         border-radius: 10px;
       }
     }

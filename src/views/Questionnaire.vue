@@ -225,7 +225,7 @@ export default {
           </li>
         </ul>
       </nav>
-      <RouterLink class="routerItem" to="/Backstage" style="margin-left: 80%">
+      <RouterLink class="routerItem" to="/Backstage" style="margin-left: 70%">
         <i class="fa-solid fa-house-lock"></i>
       </RouterLink>
     </div>
@@ -339,7 +339,7 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 
     .pagination {
       display: flex;
